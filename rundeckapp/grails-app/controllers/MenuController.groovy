@@ -268,6 +268,8 @@ class MenuController {
          'group/name' -> [ jobs...]
          */
         def jobgroups=[:]
+        
+				
         schedlist.each{ ScheduledExecution se->
             authorizemap[se.id.toString()]=jobauthorizations[UserAuth.WF_READ]?.contains(se.id.toString())
             if(authorizemap[se.id.toString()] || roleService.isUserInAnyRoles(request,['admin','job_view_unauthorized'])){
@@ -284,7 +286,7 @@ class MenuController {
             }
 
         }
-
+		
         if(org.codehaus.groovy.grails.commons.ConfigurationHolder.config.rundeck?.gui?.realJobTree != "false") {
             //Adding group entries for empty hierachies to have a "real" tree 
             def missinggroups = [:]
@@ -634,4 +636,5 @@ class MenuController {
         return new ExecutionController().renderApiExecutionListResultXML(results.nowrunning)
     }
 }
+
 

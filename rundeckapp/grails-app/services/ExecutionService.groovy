@@ -10,6 +10,8 @@ import com.dtolabs.rundeck.core.execution.ExecutionItem
 import com.dtolabs.rundeck.core.execution.ExecutionListener
 import com.dtolabs.rundeck.core.execution.WorkflowExecutionServiceThread
 import com.dtolabs.rundeck.core.utils.NodeSet
+import com.dtolabs.rundeck.core.utils.NodeSet.Exclude;
+import com.dtolabs.rundeck.core.utils.NodeSet.Include;
 import com.dtolabs.rundeck.core.utils.ThreadBoundOutputStream
 import com.dtolabs.rundeck.execution.ExecutionItemFactory
 import com.dtolabs.rundeck.execution.IWorkflowCmdItem
@@ -623,11 +625,19 @@ class ExecutionService implements ApplicationContextAware, CommandInterpreter{
         def Map<String, String> optsmap = execMap.argString ? frameworkService.parseOptsFromString(execMap.argString) : null!=args? frameworkService.parseOptsFromArray(args):null
 
         def Map<String,Map<String,String>> datacontext = new HashMap<String,Map<String,String>>()
+<<<<<<< HEAD
         datacontext.put("option",optsmap)
         datacontext.put("job",jobcontext?jobcontext:new HashMap<String,String>())
 
         NodeSet nodeset
 
+=======
+				datacontext.put("option",optsmap)
+				datacontext.put("job",jobcontext?jobcontext:new HashMap<String,String>())
+		
+				NodeSet nodeset
+				
+>>>>>>> 2d845a33f8651d3de00d256538a1cc6462d7203f
         if (execMap.doNodedispatch) {
             //set nodeset for the context if doNodedispatch parameter is true
             nodeset = filtersAsNodeSet(execMap)
@@ -649,7 +659,39 @@ class ExecutionService implements ApplicationContextAware, CommandInterpreter{
             //blank?
             nodeset = new NodeSet()
         }
+<<<<<<< HEAD
 
+=======
+				
+				// enhnacement to allow ${option.xyz} in tags and names
+				if (nodeset != null) {
+					Include includes = nodeset.getInclude();
+		
+					if (includes != null) {
+						if (includes.getName() != null) {
+							includes.setName(DataContextUtils.replaceDataReferences(
+									includes.getName(), datacontext));
+						}
+						if (includes.getTags() != null) {
+							includes.setTags(DataContextUtils.replaceDataReferences(
+									includes.getTags(), datacontext));
+						}
+					}
+		
+					Exclude excludes = nodeset.getExclude();
+					if (excludes != null) {
+						if (excludes.getName() != null) {
+							excludes.setName(DataContextUtils.replaceDataReferences(
+									excludes.getName(), datacontext));
+						}
+						if (excludes.getTags() != null) {
+							excludes.setTags(DataContextUtils.replaceDataReferences(
+									excludes.getTags(), datacontext));
+						}
+					}
+				}
+        
+>>>>>>> 2d845a33f8651d3de00d256538a1cc6462d7203f
         //create thread object with an execution item, and start it
         final com.dtolabs.rundeck.core.execution.ExecutionContext item =  com.dtolabs.rundeck.core.execution.ExecutionContextImpl.createExecutionContextImpl(
             execMap.project,
