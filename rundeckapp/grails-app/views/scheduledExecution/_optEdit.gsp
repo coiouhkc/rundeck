@@ -65,7 +65,7 @@
                         <label>
             				<div class="${hasErrors(bean:option,field:'remoteValue','fieldError')}">Remote Value</div>
                 			<input type="text" class="right" name="remoteValue" 
-                			value="${option?.remoteValue.encodeAsHTML()}" 
+                			value="${option?.remoteValue?.encodeAsHTML()}" 
                 			size="40" placeholder="Remote value"/>
             			</label>
                         
