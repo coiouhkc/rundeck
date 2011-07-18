@@ -61,6 +61,14 @@
                                    value="${option?.defaultValue?.encodeAsHTML()}"
                                    size="40" placeholder="Default value"/>
                         </label>
+                        
+                        <label>
+            				<div class="${hasErrors(bean:option,field:'remoteValue','fieldError')}">Remote Value</div>
+                			<input type="text" class="right" name="remoteValue" 
+                			value="${option?.remoteValue.encodeAsHTML()}" 
+                			size="40" placeholder="Remote value"/>
+            			</label>
+                        
                     </td>
                 </tr>
             </table>

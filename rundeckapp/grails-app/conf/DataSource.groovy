@@ -13,8 +13,8 @@ hibernate {
 environments {
 	development {
 		dataSource {
-			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-            url = "jdbc:hsqldb:mem:testDb"
+			dbCreate = "update" // one of 'create', 'create-drop','update'
+            url = "jdbc:hsqldb:file:/Users/abratuhi/Dropbox/rundeck-installation/server/data/grailsdb;shutdown=true"
         }
 	}
 	test {
