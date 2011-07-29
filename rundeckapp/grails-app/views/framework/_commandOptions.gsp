@@ -24,8 +24,11 @@ used by _editOptions.gsp template
             <g:set var="optDescription" value="${optionSelect.description}"/>
             <g:set var="fieldName" value="${usePrefix+'option.'+optName}"/>
             <g:set var="optionHasValue" value="${optionSelect.defaultValue || selectedoptsmap && selectedoptsmap[optName]}"/>
+            <g:set var="optionHasRemoteValue" value="${optionSelect.remoteValue}" />
             <g:set var="hasError" value="${jobexecOptionErrors?jobexecOptionErrors[optName]:null}"/>
             <g:set var="fieldNamekey" value="${rkey+'_'+optName+'_label'}"/>
+            
+            <g:if test="${optionHasRemoteValue == null}">
             <tr>
                 <td class="${hasError?'fieldError':''} remoteoptionfield" id="${fieldNamekey}"><span style="display:none;" class="remotestatus"></span> ${optName}:</td>
                 <td>
@@ -59,6 +62,8 @@ used by _editOptions.gsp template
                     <div class="info note">${optDescription}</div>
                 </td>
             </tr>
+            </g:if>
+            
         </g:each>
     </table>
     </td>
