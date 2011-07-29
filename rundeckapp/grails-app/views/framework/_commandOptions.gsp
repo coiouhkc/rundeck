@@ -28,8 +28,12 @@ used by _editOptions.gsp template
             <g:set var="hasError" value="${jobexecOptionErrors?jobexecOptionErrors[optName]:null}"/>
             <g:set var="fieldNamekey" value="${rkey+'_'+optName+'_label'}"/>
             
-            <g:if test="${optionHasRemoteValue == null}">
-            <tr>
+            <g:if test="${optionHasRemoteValue != null}">
+            	<tr style="visibility:hidden;">
+            </g:if>
+            <g:else>
+            	<tr>
+            </g:else>
                 <td class="${hasError?'fieldError':''} remoteoptionfield" id="${fieldNamekey}"><span style="display:none;" class="remotestatus"></span> ${optName}:</td>
                 <td>
                     <g:if test="${optionSelect.valuesUrl !=null}">
@@ -62,7 +66,6 @@ used by _editOptions.gsp template
                     <div class="info note">${optDescription}</div>
                 </td>
             </tr>
-            </g:if>
             
         </g:each>
     </table>

@@ -1060,7 +1060,7 @@ class ExecutionService implements ApplicationContextAware, CommandInterpreter{
                     failedkeys[opt.name] += msg
                     return
                 }
-                if (opt.required && !optparams[opt.name]) {
+                if (opt.required && !optparams[opt.name] && !opt.remoteValue) {
                     fail = true
                     if (!failedkeys[opt.name]) {
                         failedkeys[opt.name] = ''
