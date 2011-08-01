@@ -911,8 +911,6 @@ class ExecutionService implements ApplicationContextAware, CommandInterpreter{
         return execution
     }
 
-
-
     def Execution createExecution(ScheduledExecution se, Framework framework, String user, Map extra=[:]) throws ExecutionServiceException{
         def ScheduledExecution scheduledExec = ScheduledExecution.get(se.id)
         se = scheduledExec
@@ -939,11 +937,19 @@ class ExecutionService implements ApplicationContextAware, CommandInterpreter{
             props = props.findAll {!(it.key=~/^node(Include|Exclude).*$/)}
         }
         if(extra){
-            props.putAll(extra)
+			props.putAll(extra)
+        }
+        
+        // TODO: fix this hack, that adds options containing remoteValues, 
+        // since those computed values are not presented in _commandOptions.gsp and hence are not set
+        se.options.each {option ->
+			if(option.remoteValue){
+				props.put("option.${option.name}", option.remoteValue)
+        	}
         }
 
         //evaluate embedded Job options for Regex match against input values
-
+		
         def optparams = ExecutionService.filterOptParams(props)
         if(!optparams){
             props.argString=addArgStringOptionDefaults(scheduledExec, props.argString)
