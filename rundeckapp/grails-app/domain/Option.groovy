@@ -84,7 +84,7 @@ public class Option implements Comparable{
             map.value=defaultValue
         }
 		if(remoteValue){
-			map.value=remoteValue
+			map.remoteValue=remoteValue
 		}
         //valuesUrl: valuesUrl.toExternalForm(), regex: regex, values: values
         if(valuesUrl){
