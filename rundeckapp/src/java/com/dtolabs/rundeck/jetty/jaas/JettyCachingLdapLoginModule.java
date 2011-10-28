@@ -285,7 +285,7 @@ public class JettyCachingLdapLoginModule extends AbstractLoginModule {
      * @throws LoginException
      */
     @SuppressWarnings("unchecked")
-    private String getUserCredentials(String username) throws LoginException {
+    protected String getUserCredentials(String username) throws LoginException {
         String ldapCredential = null;
 
         SearchControls ctls = new SearchControls();
@@ -529,7 +529,7 @@ public class JettyCachingLdapLoginModule extends AbstractLoginModule {
 
         DirContext dirContext = new InitialDirContext(environment);
 
-	// use _rootContext to find roles, if configured to doso
+	// use _rootContext to find roles, if configured to do so
 	if ( _forceBindingLoginUseRootContextForRoles ) {
 	    dirContext = _rootContext;
 	    Log.debug("Using _rootContext for role lookup.");
@@ -700,7 +700,7 @@ public class JettyCachingLdapLoginModule extends AbstractLoginModule {
     }
 
 
-    private static String convertCredentialLdapToJetty(String encryptedPassword) {
+    protected static String convertCredentialLdapToJetty(String encryptedPassword) {
         if (encryptedPassword == null) {
             return encryptedPassword;
         }
