@@ -28,24 +28,6 @@
                 <g:render template="/execution/execDetailsWorkflow" model="${[workflow:execdata.workflow,context:execdata,noimgs:noimgs]}"/>
             </td>
         </tr>
-        <g:if test="${execdata instanceof ScheduledExecution && execdata.options}">
-            <tr>
-                <td>Options:</td>
-                <td  colspan="3">
-                    <g:render template="/scheduledExecution/optionsSummary" model="${[options:execdata.options]}"/>
-                </td>
-            </tr>
-        </g:if>
-        <g:if test="${execdata.argString}">
-            <tr>
-                <td>
-                    Options:
-                </td>
-                <td colspan="3">
-                    <span class="argString">${execdata?.argString.encodeAsHTML()}</span>
-                </td>
-            </tr>
-        </g:if>
     </g:if>
     <tr>
         <td>Log level:</td>
