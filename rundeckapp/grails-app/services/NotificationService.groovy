@@ -57,7 +57,7 @@ public class NotificationService {
                     //sending notification of a status trigger for the Job
                     def Execution exec = content.execution
                     def destarr=n.content.split(",") as List
-                    def subjectmsg="${exec.status == 'true' ? 'SUCCESS' : 'FAILURE'} [${exec.project}] ${source.groupPath?source.groupPath+'/':''}${source.jobName}${exec.argString?' '+exec.argString:''}"
+                    def subjectmsg="${exec.status == 'true' ? 'SUCCESS' : 'FAILURE'} [${exec.project}] ${source.groupPath?source.groupPath+'/':''}${source.jobName}"
                     destarr.each{recipient->
                         try{
                             mailService.sendMail{
