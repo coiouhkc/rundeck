@@ -16,15 +16,18 @@
 
 package com.dtolabs.rundeck.jetty.jaas;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.NamingException;
+import javax.naming.directory.DirContext;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.login.LoginException;
 
-import org.mortbay.jetty.security.Credential;
 import org.mortbay.jetty.plus.jaas.spi.UserInfo;
+import org.mortbay.jetty.security.Credential;
 
 public class JettyCachingHybridLoginModule extends JettyCachingLdapLoginModule {
 	
@@ -49,9 +52,28 @@ public class JettyCachingHybridLoginModule extends JettyCachingLdapLoginModule {
         pwdCredential = convertCredentialLdapToJetty(pwdCredential);
 
         Credential credential = Credential.getCredential(pwdCredential);
-        //List roles = getUserRoles(_rootContext, username);
         com.dtolabs.rundeck.jetty.jaas.UserInfo localUserInfo = propfileModule.getUserInfo(username);
 
         return new UserInfo(username, credential, localUserInfo.getRoleNames());
     }
+	
+	protected List getUserRoles(DirContext dirContext, String username) throws LoginException,
+    NamingException {
+		List result = getUserRolesByDn(dirContext, null, username);
+		return result;
+	}
+	
+	protected List getUserRolesByDn(DirContext dirContext, String userDn, String username) throws LoginException,
+    NamingException {
+		List result;
+		try{
+			com.dtolabs.rundeck.jetty.jaas.UserInfo localUserInfo = propfileModule.getUserInfo(username);
+			result = localUserInfo.getRoleNames();
+		}
+		catch(Exception e){
+			result = new ArrayList();
+		}
+		
+		return result;
+	}
 }

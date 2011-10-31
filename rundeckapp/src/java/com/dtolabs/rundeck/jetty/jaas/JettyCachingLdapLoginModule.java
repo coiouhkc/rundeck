@@ -342,15 +342,15 @@ public class JettyCachingLdapLoginModule extends AbstractLoginModule {
      * @throws LoginException
      */
     @SuppressWarnings("unchecked")
-    private List getUserRoles(DirContext dirContext, String username) throws LoginException,
+    protected List getUserRoles(DirContext dirContext, String username) throws LoginException,
             NamingException {
         String userDn = _userRdnAttribute + "=" + username + "," + _userBaseDn;
 
-        return getUserRolesByDn(dirContext, userDn);
+        return getUserRolesByDn(dirContext, userDn, username);
     }
 
     @SuppressWarnings("unchecked")
-    private List getUserRolesByDn(DirContext dirContext, String userDn) throws LoginException,
+    protected List getUserRolesByDn(DirContext dirContext, String userDn, String username) throws LoginException,
             NamingException {
         ArrayList roleList = new ArrayList();
 
@@ -534,7 +534,7 @@ public class JettyCachingLdapLoginModule extends AbstractLoginModule {
 	    dirContext = _rootContext;
 	    Log.debug("Using _rootContext for role lookup.");
 	}
-        List roles = getUserRolesByDn(dirContext, userDn);
+        List roles = getUserRolesByDn(dirContext, userDn, username);
 
         UserInfo userInfo = new UserInfo(username, null, roles);
         if(_cacheDuration > 0) {
