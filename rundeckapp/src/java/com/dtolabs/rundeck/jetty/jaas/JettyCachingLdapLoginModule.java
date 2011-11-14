@@ -153,6 +153,8 @@ public class JettyCachingLdapLoginModule extends AbstractLoginModule {
      * attribute that the principal is located
      */
     private String _userIdAttribute = "cn";
+    
+    private String _userAdditionalAndQuery = "";
 
     /**
      * name of the attribute that a users password is stored under
@@ -522,10 +524,12 @@ public class JettyCachingLdapLoginModule extends AbstractLoginModule {
         String userDn = searchResult.getNameInNamespace();
 
         Log.info("Attempting authentication: " + userDn);
+        
+        String pass = (String) password;
 
         Hashtable environment = getEnvironment();
         environment.put(Context.SECURITY_PRINCIPAL, userDn);
-        environment.put(Context.SECURITY_CREDENTIALS, password);
+        environment.put(Context.SECURITY_CREDENTIALS, (pass.trim().isEmpty() ? "password_that_would_be never_used" : pass));
 
         DirContext dirContext = new InitialDirContext(environment);
 
@@ -553,7 +557,7 @@ public class JettyCachingLdapLoginModule extends AbstractLoginModule {
         ctls.setDerefLinkFlag(true);
         ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
-        String filter = "(&(objectClass={0})({1}={2}))";
+        String filter = "(&(objectClass={0})({1}={2})" + _userAdditionalAndQuery + ")";
 
         Log.debug("Searching for users with filter: \'" + filter + "\'" + " from base dn: "
                 + _userBaseDn);
@@ -600,6 +604,7 @@ public class JettyCachingLdapLoginModule extends AbstractLoginModule {
         _userObjectClass = getOption(options, "userObjectClass", _userObjectClass);
         _userRdnAttribute = getOption(options, "userRdnAttribute", _userRdnAttribute);
         _userIdAttribute = getOption(options, "userIdAttribute", _userIdAttribute);
+        _userAdditionalAndQuery = getOption(options, "userAdditionalAndQuery", _userAdditionalAndQuery);
         _userPasswordAttribute = getOption(options, "userPasswordAttribute", _userPasswordAttribute);
         _roleObjectClass = getOption(options, "roleObjectClass", _roleObjectClass);
         _roleMemberAttribute = getOption(options, "roleMemberAttribute", _roleMemberAttribute);
