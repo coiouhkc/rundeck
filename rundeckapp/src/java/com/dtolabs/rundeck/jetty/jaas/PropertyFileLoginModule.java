@@ -151,7 +151,7 @@ public class PropertyFileLoginModule extends AbstractLoginModule
      * @param username
      * @throws Exception
      */
-    public UserInfo getUserInfo (String username) throws Exception
+    public UserInfo getUserInfo (String username)
     {
         Map userInfoMap = (Map)fileMap.get(propertyFileName);
         if (userInfoMap == null)
